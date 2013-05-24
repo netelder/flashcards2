@@ -34,6 +34,8 @@ class Deck
     @discards = []
   end
 
+  # arguments to shuffle! are used by test code to validate method operation
+  # not required for normal game play.
   def shuffle!(png = Random.new) 
     @cards.shuffle!(random: png)
   end
