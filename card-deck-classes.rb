@@ -1,15 +1,23 @@
 #Code written by Matt Barackman, T.J. Singh, Lloyd Taylor and William Bendix
 
 class Card
-  attr_reader :definition, :term
+  attr_reader :definition, :term, :incorrect_guess_count, :correct_guess_count
 
   def initialize(arg)
     @definition = arg[:definition]
     @term = arg[:term]
+    @incorrect_guess_count = 0
+    @correct_guess_count = 0
   end
 
   def match?(guess)
-    guess.downcase == @term.downcase
+    if guess.downcase == @term.downcase
+      @correct_guess_count += 1
+      return true
+    else
+      @incorrect_guess_count += 1
+      return false
+    end
   end
 
   def to_s
@@ -20,9 +28,10 @@ end
 
 class Deck
   
-  attr_reader :cards
+  attr_reader :cards, :discards
   def initialize
     @cards = []
+    @discards = []
   end
 
   def shuffle!(png = Random.new) 
@@ -40,4 +49,9 @@ class Deck
   def insert!(card)
     @cards << card
   end
+
+  def discard!(card)
+    @discards << card
+  end
+
 end

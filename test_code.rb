@@ -1,6 +1,5 @@
 require_relative 'card-deck-classes'
 require_relative 'flashcards_parser'
-require_relative 'flashcards_user'
 
 # Test Card class
 
@@ -12,6 +11,8 @@ p card1.definition == "Command to instantiate a new object of class Array"
 p card1.match?("Array.new") == true
 p card1.match?("array.New") == true
 p card1.match?("foobar") == false
+p card1.incorrect_guess_count == 1
+p card1.correct_guess_count == 2
 
 # Test Deck class
 
@@ -28,3 +29,9 @@ p deck1.next  == card2
 deck1.insert!(card2)
 prng = Random.new(1234)  # seed RNG for testing
 p deck1.shuffle!(prng) == [card2, card1]
+
+p deck1.discards == []
+card = deck1.next
+p deck1.discard!(card) == [card]
+p deck1.cards == [card2]
+
