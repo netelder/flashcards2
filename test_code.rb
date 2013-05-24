@@ -30,7 +30,7 @@ deck1.insert!(card2)
 prng = Random.new(1234)  # seed RNG for testing
 p deck1.shuffle!(prng) == [card2, card1]
 
-deck1.report
+p deck1.report == "Incorrect  Term\n---------  ----\n0          Phish food\n1          Array.new\n"
 
 p deck1.discards == []
 card = deck1.next
