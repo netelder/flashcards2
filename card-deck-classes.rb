@@ -56,4 +56,15 @@ class Deck
     @discards << card
   end
 
+  def report
+    @reportdeck = @cards + @discards
+    @reportdeck.sort_by!{|card| card.incorrect_guess_count}  
+    puts "Incorrect  Term"
+    puts "---------  ----"
+    @reportdeck.each do |card|
+      puts "#{card.incorrect_guess_count}".ljust(11) + "#{card.term}" 
+    end 
+    puts
+  end
+
 end
