@@ -1,10 +1,9 @@
 #Code written by Matt Barackman, T.J. Singh, Lloyd Taylor and William Bendix
 
-
 require_relative 'card-deck-classes'
 require_relative 'flashcards_parser'
 require_relative 'flashcard_ui'
-
+require 'debugger'
 
 class Game
 
@@ -17,7 +16,9 @@ class Game
   end
 
   def run
+    # debugger
     display_welcome
+    puts
     until @deck.empty?
       card = get_card
       display_definition(card)      
@@ -30,12 +31,13 @@ class Game
   end
 
   def loop_through_guesses(card) 
+
     3.times do |n|
-      guess = get_guess
+      guess = STDIN.gets.chomp
       if correct?(card, guess)
         display_correct
         solid_understanding?(card) ? @deck.discard!(card) : @deck.requeue!(card)
-        break
+        return
       elsif n == 2
         @deck.requeue!(card) 
         display_incorrect(card.term)
@@ -44,6 +46,11 @@ class Game
       end
     end
   end
+
+  # def get_guess
+  #   print 'Guess: '
+  #   gets.chomp
+  # end
 
   def solid_understanding?(card)
     card.correct_guess_count > card.incorrect_guess_count
@@ -57,7 +64,6 @@ end
 
 
 
-
 deck = Deck.new
 
 ARGV.each do |filename|
@@ -65,7 +71,8 @@ ARGV.each do |filename|
                       container: deck)
   parser.populate_container!
 end
+
 deck.shuffle!
 game = Game.new(deck)
 game.run
-
+p deck.empty?
