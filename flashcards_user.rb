@@ -10,54 +10,50 @@ class Game
 
   NUMBER_OF_GUESSES = 3
 
+  include UI
+
   def initialize(deck)
     @deck = deck
   end
 
-  def self.run
-
+  def run
     display_welcome
-    until deck.empty?
+    until @deck.empty?
       card = get_card
       display_definition(card)      
-      loop_through_guesses
+      loop_through_guesses(card)
     end
-  
   end
 
   def get_card
-    deck.next
+    @deck.next
   end
 
-  def loop_through_guesses
-    NUMBER_OF_GUESSES.times do |x|
+  def loop_through_guesses(card) 
+    3.times do |n|
       guess = get_guess
-
-      if card.match?(guess)
+      if correct?(card, guess)
         display_correct
+        solid_understanding?(card) ? @deck.discard!(card) : @deck.requeue!(card)
         break
-      elsif x == NUMBER_OF_GUESSES - 1
+      elsif n == 2
+        @deck.requeue!(card) 
         display_incorrect(card.term)
       else
         display_incorrect
       end
-
     end
   end
 
-  def process_guess(card, guess)
-
+  def solid_understanding?(card)
+    card.correct_guess_count > card.incorrect_guess_count
   end
 
-
-
+  def correct?(card, guess)
+    card.match?(guess)
+  end
 
 end
-
-
-
-
-
 
 
 
@@ -70,5 +66,6 @@ ARGV.each do |filename|
   parser.populate_container!
 end
 deck.shuffle!
-Game.run(deck)
+game = Game.new(deck)
+game.run
 
