@@ -52,6 +52,10 @@ class Deck
     @cards << card
   end
 
+  def requeue!(card)
+    @cards.unshift(card)
+  end
+
   def discard!(card)
     @discards << card
   end

@@ -14,7 +14,7 @@ p card1.match?("foobar") == false
 p card1.incorrect_guess_count == 1
 p card1.correct_guess_count == 2
 
-# Test Deck class
+# # Test Deck class
 
 deck1 = Deck.new
 p deck1.cards == []
@@ -36,4 +36,13 @@ p deck1.discards == []
 card = deck1.next
 p deck1.discard!(card) == [card]
 p deck1.cards == [card2]
+
+# Test requeue!
+deck2 = Deck.new
+deck2.insert!(card1)
+deck2.insert!(card2)
+card = deck1.next
+deck1.requeue!(card)
+p deck1.next == card2
+
 
